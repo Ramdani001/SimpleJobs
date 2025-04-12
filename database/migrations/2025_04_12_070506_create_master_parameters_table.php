@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('code');
             $table->text('description')->nullable();
+            $table->string(column: 'value');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
