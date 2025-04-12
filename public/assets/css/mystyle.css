@@ -1,0 +1,25 @@
+.close{
+    margin-left: -1000px !important;
+}
+
+#menuBtn button{
+    background: transparent !important;
+    border: none !important;
+}
+
+@media (min-height: 776px) {
+    .contentDash{
+        margin-left: 15%;
+    }
+
+    #tablesContent{
+        width: 81vw !important;
+    }
+    
+}
+
+@media screen and (max-height: 544px) {
+    .contentDash{
+        margin-left: 0;
+    } 
+}
