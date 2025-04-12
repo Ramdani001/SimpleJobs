@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MasterParameter extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['value'];
 }

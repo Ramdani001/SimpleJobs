@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->foreignId('condition_id')->constrained('inventaris_conditions')->onDelete('cascade');
             $table->boolean('is_active')->default(true);
+            $table->string(column: 'created_by');
             $table->timestamps();
         });
     }

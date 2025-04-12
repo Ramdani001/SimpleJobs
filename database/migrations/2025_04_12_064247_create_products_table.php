@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('product_status_id')->nullable()->constrained('product_statuses')->nullOnDelete();
             $table->string('image_url');
             $table->boolean('is_active')->default(true);
+            $table->string(column: 'created_by');
             $table->timestamps();
         });
     }
