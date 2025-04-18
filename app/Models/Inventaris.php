@@ -9,6 +9,14 @@ class Inventaris extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'Name',
+        'quantity',
+        'condition_id',
+        'is_active',
+        'created_by',
+    ];
+
     public function condition()
     {
         return $this->belongsTo(InventarisCondition::class, 'condition_id');

@@ -115,7 +115,7 @@
       </div>
       <div class="modal-body">
         <form action="#" method="POST">
-          
+
           <div class="form-floating mb-3">
             <input type="text" name="namaProduk" class="form-control" id="namaProduk" placeholder="Nama Produk">
             <label for="namaProduk">Nama Produk</label>
