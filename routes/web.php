@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InventarisController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -25,3 +26,6 @@ Route::get('/inventaris', [InventarisController::class, 'index'])->name('inventa
 Route::post('/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
 Route::PATCH('/inventaris/{id}', [InventarisController::class, 'update'])->name('inventaris.update');
 Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
+
+// Report
+Route::get('/report', [ReportController::class, 'index'])->name('report.index');
