@@ -1,9 +1,12 @@
 <div id="tablesContent" class="container-fluid clsNav">
     <div class="card mb-4">
-        <div class="d-flex mt-3 p-2">
+        <div class="d-flex justify-content-between mt-3 p-2">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInventarisModal">
                 + Tambah Inventaris
             </button>
+            <a href="{{ route('inventaris.export') }}" class="btn btn-success me-2">
+                Export Excel
+            </a>
         </div>
 
         <div class="card-body px-0 pt-0 pb-2">
@@ -12,13 +15,24 @@
                     <thead>
                         <tr>
                             <th style="width: 50px;"
-                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kondisi
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center">
+                                No</th>
+                            <th
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center">
+                                Nama</th>
+                            <th
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center">
+                                Kondisi
                             </th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            <th
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center">
                                 Jumlah</th>
-                            <th class="text-secondary opacity-7"></th>
+                            <th
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center">
+                                Tanggal Dibuat</th>
+                            <th
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center">
+                                Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,27 +43,31 @@
                                         {{ $listInventaris->firstItem() + $index }}
                                     </span>
                                 </td>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">{{ $item->name }}</h6>
-                                        </div>
-                                    </div>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs font-weight-bold mb-0">{{ $item->name }}</p>
                                 </td>
-                                <td>
+                                <td class="align-middle text-center">
                                     <p class="text-xs font-weight-bold mb-0">{{ $item->condition->name }}</p>
                                 </td>
                                 <td class="align-middle text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ $item->quantity }}</span>
                                 </td>
-                                <td class="align-middle">
-                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                        data-bs-toggle="modal" data-bs-target="#editInventarisModal"
-                                        data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                                        data-condition="{{ $item->condition_id }}" data-quantity="{{ $item->quantity }}"
-                                        data-active="{{ $item->is_active }}" data-created-by="{{ $item->created_by }}"
-                                        title="Edit Inventaris">
-                                        Edit
+                                <td class="align-middle text-center">
+                                    <p class="text-xs font-weight-bold mb-0">
+                                        {{ $item->created_at->format('d-m-Y H:i') }}</p>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <a href="javascript:;" class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#editInventarisModal" data-id="{{ $item->id }}"
+                                        data-name="{{ $item->name }}" data-condition="{{ $item->condition_id }}"
+                                        data-quantity="{{ $item->quantity }}" data-active="{{ $item->is_active }}"
+                                        data-created-by="{{ $item->created_by }}" title="Edit Inventaris">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="javascript:;" class="btn btn-danger ms-2" data-bs-toggle="modal"
+                                        data-bs-target="#deleteInventarisModal" data-id="{{ $item->id }}"
+                                        title="Delete Inventaris">
+                                        <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                                 </tr>
@@ -153,6 +171,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteInventarisModal" tabindex="-1" aria-labelledby="deleteInventarisLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="" method="POST" id="formDeleteInventaris">
+            @csrf
+            @method('DELETE')
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteInventarisLabel">Hapus Inventaris</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus inventaris ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <script>
     const editModal = document.getElementById('editInventarisModal');
     editModal.addEventListener('show.bs.modal', event => {
@@ -169,5 +211,15 @@
         document.getElementById('editNameInventaris').value = name;
         document.getElementById('editConditionInventaris').value = condition;
         document.getElementById('editQuantityInventaris').value = quantity;
+    });
+
+    const deleteModal = document.getElementById('deleteInventarisModal');
+    deleteModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+
+        const id = button.getAttribute('data-id');
+
+        const form = document.getElementById('formDeleteInventaris');
+        form.action = `/inventaris/${id}`;
     });
 </script>

@@ -14,6 +14,7 @@ class InventarisController extends Controller
         $listInventaris = Inventaris::with('condition')
             ->where("created_by", "=", Auth::user()->username)
             ->where("is_active", "=", true)
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         $conditions = InventarisCondition::where("is_active", "=", true)
@@ -62,7 +63,10 @@ class InventarisController extends Controller
     public function destroy($id)
     {
         $inventaris = Inventaris::findOrFail($id);
-        $inventaris->delete();
+        $inventaris->update([
+            'is_active' => false,
+            'updated_by' => Auth::user()->username,
+        ]);
 
         return redirect()->route('inventaris.index')->with('success', 'Inventaris berhasil dihapus.');
     }
