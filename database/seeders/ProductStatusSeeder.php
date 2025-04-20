@@ -18,12 +18,14 @@ class ProductStatusSeeder extends Seeder
     {
         ProductStatus::create([
             'name' => 'Ready',
-            'is_active' => true
+            'is_active' => true,
+            'created_by' => 'SYSTEM'
         ]);
 
         ProductStatus::create([
             'name' => 'Sold Out',
-            'is_active' => true
+            'is_active' => true,
+            'created_by' => 'SYSTEM'
         ]);
     }
 }

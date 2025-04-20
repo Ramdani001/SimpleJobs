@@ -20,12 +20,14 @@ class MasterParameterSeeder extends Seeder
             'code' => 'TARGET_DEVICE',
             'description' => 'Target Device',
             'value' => '0',
+            'created_by' => 'SYSTEM'
         ]);
 
         MasterParameter::create([
             'code' => 'FINANCIAL_TARGET',
             'description' => 'Financial Target',
             'value' => '0',
+            'created_by' => 'SYSTEM'
         ]);
     }
 }
