@@ -22,7 +22,7 @@ class InventarisController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'Name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'quantity' => 'required|integer|min:0',
             'condition_id' => 'required|exists:inventaris_conditions,id'
         ]);
@@ -38,14 +38,14 @@ class InventarisController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'condition_id' => 'required|integer',
             'quantity' => 'required|integer'
         ]);
 
         $inventaris = Inventaris::findOrFail($id);
         $inventaris->update([
-            'Name' => $request->Name,
+            'name' => $request->name,
             'condition_id' => $request->condition_id,
             'quantity' => $request->quantity,
             'is_active' => true,

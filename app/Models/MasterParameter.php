@@ -9,5 +9,5 @@ class MasterParameter extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['value'];
+    protected $fillable = ['value', 'created_by', 'updated_by'];
 }

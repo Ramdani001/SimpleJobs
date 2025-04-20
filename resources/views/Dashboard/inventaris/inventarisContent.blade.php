@@ -26,7 +26,7 @@
                                 <td>
                                     <div class="d-flex px-2 py-1">
                                         <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">{{ $item->Name }}</h6>
+                                            <h6 class="mb-0 text-sm">{{ $item->name }}</h6>
                                         </div>
                                     </div>
                                 </td>
@@ -39,7 +39,7 @@
                                 <td class="align-middle">
                                     <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
                                         data-bs-toggle="modal" data-bs-target="#editInventarisModal"
-                                        data-id="{{ $item->id }}" data-name="{{ $item->Name }}"
+                                        data-id="{{ $item->id }}" data-name="{{ $item->name }}"
                                         data-condition="{{ $item->condition_id }}" data-quantity="{{ $item->quantity }}"
                                         data-active="{{ $item->is_active }}" data-created-by="{{ $item->created_by }}"
                                         title="Edit Inventaris">
@@ -72,7 +72,7 @@
                 <div class="modal-body">
 
                     <div class="form-floating mb-3">
-                        <input type="text" name="Name" class="form-control" id="nameInventaris"
+                        <input type="text" name="name" class="form-control" id="nameInventaris"
                             placeholder="Nama Inventaris" required>
                         <label for="nameInventaris">Nama Inventaris</label>
                     </div>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" name="Name" class="form-control" id="editNameInventaris"
+                        <input type="text" name="name" class="form-control" id="editNameInventaris"
                             placeholder="Nama Inventaris" required>
                         <label for="editNameInventaris">Nama Inventaris</label>
                     </div>
