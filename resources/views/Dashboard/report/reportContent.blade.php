@@ -4,11 +4,13 @@
     <form method="GET" action="{{ route('report.index') }}" class="row mb-4">
         <div class="col-md-4 mb-2">
             <label for="start_date" class="form-label">Dari Tanggal</label>
-            <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="form-control">
+            <input type="date" id="start_date" name="start_date"
+                value="{{ request('start_date', now()->startOfMonth()->format('Y-m-d')) }}" class="form-control">
         </div>
         <div class="col-md-4 mb-2">
             <label for="end_date" class="form-label">Sampai Tanggal</label>
-            <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="form-control">
+            <input type="date" id="end_date" name="end_date"
+                value="{{ request('end_date', now()->format('Y-m-d')) }}" class="form-control">
         </div>
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary w-100">Terapkan Filter</button>
