@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->string(column: 'value');
             $table->boolean('is_active')->default(true);
+            $table->string(column: 'created_by');
+            $table->string(column: 'updated_by');
             $table->timestamps();
         });
     }

@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Inventaris;
 use App\Models\InventarisCondition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InventarisController extends Controller
 {
     public function index()
     {
-        $listInventaris = Inventaris::with('condition')->get();
+        $listInventaris = Inventaris::with('condition')
+            ->where("created_by", "=", Auth::user()->username)
+            ->where("is_active", "=", true)
+            ->get();
         $conditions = InventarisCondition::all();
         return view('Dashboard.inventaris', compact('listInventaris', 'conditions'));
     }
@@ -20,10 +24,11 @@ class InventarisController extends Controller
         $validated = $request->validate([
             'Name' => 'required|string|max:255',
             'quantity' => 'required|integer|min:0',
-            'condition_id' => 'required|exists:inventaris_conditions,id',
-            'is_active' => 'boolean',
-            'created_by' => 'required|string|max:255',
+            'condition_id' => 'required|exists:inventaris_conditions,id'
         ]);
+
+        $validated["created_by"] = Auth::user()->username;
+        $validated["is_active"] = true;
 
         Inventaris::create($validated);
 
@@ -35,8 +40,7 @@ class InventarisController extends Controller
         $request->validate([
             'Name' => 'required|string|max:255',
             'condition_id' => 'required|integer',
-            'quantity' => 'required|integer',
-            'created_by' => 'required|string|max:255',
+            'quantity' => 'required|integer'
         ]);
 
         $inventaris = Inventaris::findOrFail($id);
@@ -44,8 +48,8 @@ class InventarisController extends Controller
             'Name' => $request->Name,
             'condition_id' => $request->condition_id,
             'quantity' => $request->quantity,
-            'is_active' => $request->has('is_active'),
-            'created_by' => $request->created_by,
+            'is_active' => true,
+            'updated_by' => Auth::user()->username,
         ]);
 
         return redirect()->back()->with('success', 'Inventaris berhasil diperbarui.');

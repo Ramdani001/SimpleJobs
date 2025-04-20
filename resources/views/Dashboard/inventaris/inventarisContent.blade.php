@@ -15,8 +15,6 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kondisi
                             </th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                Status</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Jumlah</th>
                             <th class="text-secondary opacity-7"></th>
                         </tr>
@@ -29,19 +27,11 @@
                                     <div class="d-flex px-2 py-1">
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="mb-0 text-sm">{{ $item->Name }}</h6>
-                                            <p class="text-xs text-secondary mb-0">Dibuat oleh: {{ $item->created_by }}
-                                            </p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <p class="text-xs font-weight-bold mb-0">{{ $item->condition->name }}</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span
-                                        class="badge badge-sm {{ $item->is_active ? 'bg-gradient-success' : 'bg-gradient-secondary' }}">
-                                        {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}
-                                    </span>
                                 </td>
                                 <td class="align-middle text-center">
                                     <span class="text-secondary text-xs font-weight-bold">{{ $item->quantity }}</span>
@@ -102,21 +92,6 @@
                             placeholder="Jumlah" required>
                         <label for="quantityInventaris">Jumlah</label>
                     </div>
-
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" value="1" id="activeInventaris"
-                            name="is_active" checked>
-                        <label class="form-check-label" for="activeInventaris">
-                            Aktif
-                        </label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="text" name="created_by" class="form-control" id="createdByInventaris"
-                            placeholder="Dibuat oleh" required>
-                        <label for="createdByInventaris">Dibuat Oleh</label>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -160,19 +135,6 @@
                             placeholder="Jumlah" required>
                         <label for="editQuantityInventaris">Jumlah</label>
                     </div>
-
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" value="1" id="editActiveInventaris"
-                            name="is_active">
-                        <label class="form-check-label" for="editActiveInventaris">Aktif</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="text" name="created_by" class="form-control" id="editCreatedByInventaris"
-                            placeholder="Dibuat oleh" required>
-                        <label for="editCreatedByInventaris">Dibuat Oleh</label>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -192,8 +154,6 @@
         const name = button.getAttribute('data-name');
         const condition = button.getAttribute('data-condition');
         const quantity = button.getAttribute('data-quantity');
-        const active = button.getAttribute('data-active');
-        const createdBy = button.getAttribute('data-created-by');
 
         const form = document.getElementById('formEditInventaris');
         form.action = `/inventaris/${id}`;
@@ -201,7 +161,5 @@
         document.getElementById('editNameInventaris').value = name;
         document.getElementById('editConditionInventaris').value = condition;
         document.getElementById('editQuantityInventaris').value = quantity;
-        document.getElementById('editActiveInventaris').checked = (active == 1);
-        document.getElementById('editCreatedByInventaris').value = createdBy;
     });
 </script>
