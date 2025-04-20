@@ -10,11 +10,12 @@ class Inventaris extends Model
     use HasFactory;
 
     protected $fillable = [
-        'Name',
+        'name',
         'quantity',
         'condition_id',
         'is_active',
         'created_by',
+        'updated_by',
     ];
 
     public function condition()
