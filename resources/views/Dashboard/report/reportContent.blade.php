@@ -1,7 +1,22 @@
 <div class="container mt-5">
     <h2 class="mb-4">Dashboard Report</h2>
 
-    <!-- Total Produk & Inventaris -->
+    <form method="GET" action="{{ route('report.index') }}" class="row mb-4">
+        <div class="col-md-4 mb-2">
+            <label for="start_date" class="form-label">Dari Tanggal</label>
+            <input type="date" id="start_date" name="start_date"
+                value="{{ request('start_date', now()->startOfMonth()->format('Y-m-d')) }}" class="form-control">
+        </div>
+        <div class="col-md-4 mb-2">
+            <label for="end_date" class="form-label">Sampai Tanggal</label>
+            <input type="date" id="end_date" name="end_date"
+                value="{{ request('end_date', now()->format('Y-m-d')) }}" class="form-control">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Terapkan Filter</button>
+        </div>
+    </form>
+
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
             <div class="card">
@@ -21,17 +36,8 @@
         </div>
     </div>
 
-    <!-- Chart Produk vs Inventaris & Produk per Tipe -->
-    <div class="row mb-4">
-        <div class="col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Perbandingan Produk & Inventaris</h5>
-                    <canvas id="inventoryChart" style="height: 300px;"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
+    <div class="row mb-5">
+        <div class="col mb-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Jumlah Produk per Tipe</h5>
@@ -41,13 +47,12 @@
         </div>
     </div>
 
-    <!-- Chart Status Produk & Kondisi Inventaris -->
-    <div class="row mb-5">
+    <div class="row mb-4">
         <div class="col-md-6 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Status Produk</h5>
-                    <canvas id="statusChart" style="height: 300px;"></canvas>
+                    <h5 class="card-title">Perbandingan Produk & Inventaris</h5>
+                    <canvas id="inventoryChart" style="height: 300px;"></canvas>
                 </div>
             </div>
         </div>
@@ -61,8 +66,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -99,19 +102,6 @@
                     beginAtZero: true
                 }
             }
-        }
-    });
-
-    const statusCtx = document.getElementById('statusChart').getContext('2d');
-    const statusChart = new Chart(statusCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Produk Aktif', 'Produk Nonaktif', 'Inventaris Aktif', 'Inventaris Nonaktif'],
-            datasets: [{
-                label: 'Status Aktif/Nonaktif',
-                data: [{{ $activeProducts }}, {{ $inactiveProducts }}, {{ $activeInventaris }}, {{ $inactiveInventaris }}],
-                backgroundColor: ['#4CAF50', '#FF7043', '#2196F3', '#BDBDBD']
-            }]
         }
     });
 

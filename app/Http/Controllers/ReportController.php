@@ -4,43 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\InventarisCondition;
 use App\Models\ProductType;
-use Illuminate\Http\Request;
-
 use App\Models\Product;
 use App\Models\Inventaris;
+use Illuminate\Http\Request;
+use Auth;
 
 class ReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $totalProducts = Product::count();
+        $username = Auth::user()->username;
 
-        $totalInventaris = Inventaris::count();
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
 
-        $productTypes = ProductType::all()->pluck('name');
-        $productCounts = Product::selectRaw('count(*) as count, product_type_id')
-            ->groupBy('product_type_id')
-            ->pluck('count', 'product_type_id')->toArray();
+        $productQuery = Product::where("created_by", $username);
+        $inventarisQuery = Inventaris::where("created_by", $username);
 
-        $activeProducts = Product::where('is_active', true)->count();
-        $inactiveProducts = Product::where('is_active', false)->count();
-        $activeInventaris = Inventaris::where('is_active', true)->count();
-        $inactiveInventaris = Inventaris::where('is_active', false)->count();
+        if ($startDate && $endDate) {
+            $productQuery->whereBetween('created_at', [$startDate, $endDate]);
+            $inventarisQuery->whereBetween('created_at', [$startDate, $endDate]);
+        }
 
-        $goodCondition = Inventaris::where('condition_id', InventarisCondition::where('name', 'Baik')->first()->id)->count();
-        $damagedCondition = Inventaris::where('condition_id', InventarisCondition::where('name', 'Rusak')->first()->id)->count();
+        $totalProducts = $productQuery->count();
+        $totalInventaris = $inventarisQuery->count();
+
+        $productTypes = ProductType::where("created_by", $username)->pluck('name', 'id');
+
+        $productCounts = [];
+        foreach ($productTypes as $typeId => $typeName) {
+            $count = (clone $productQuery)->where("product_type_id", $typeId)->count();
+            $productCounts[] = $count;
+        }
+
+        $baikConditionId = InventarisCondition::where('name', 'Baik')->first()->id;
+        $rusakConditionId = InventarisCondition::where('name', 'Rusak')->first()->id;
+
+        $goodCondition = (clone $inventarisQuery)->where('condition_id', $baikConditionId)->count();
+        $damagedCondition = (clone $inventarisQuery)->where('condition_id', $rusakConditionId)->count();
 
         return view('Dashboard.report', compact(
             'totalProducts',
             'totalInventaris',
             'productTypes',
             'productCounts',
-            'activeProducts',
-            'inactiveProducts',
-            'activeInventaris',
-            'inactiveInventaris',
             'goodCondition',
-            'damagedCondition'
+            'damagedCondition',
+            'startDate',
+            'endDate'
         ));
     }
+
 }
