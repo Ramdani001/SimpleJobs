@@ -16,7 +16,7 @@ class MasterProductTypeSeeder extends Seeder
      */
     public function run()
     {
-        ProductType::create(['name' => 'Device']);
-        ProductType::create(['name' => 'Terrea']);
+        ProductType::create(['name' => 'Device', 'created_by' => 'SYSTEM']);
+        ProductType::create(['name' => 'Terrea', 'created_by' => 'SYSTEM']);
     }
 }

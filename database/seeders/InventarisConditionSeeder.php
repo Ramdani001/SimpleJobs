@@ -16,7 +16,7 @@ class InventarisConditionSeeder extends Seeder
      */
     public function run()
     {
-        InventarisCondition::create(['name' => 'Baik']);
-        InventarisCondition::create(['name' => 'Rusak']);
+        InventarisCondition::create(['name' => 'Baik', 'created_by' => 'SYSTEM']);
+        InventarisCondition::create(['name' => 'Rusak', 'created_by' => 'SYSTEM']);
     }
 }

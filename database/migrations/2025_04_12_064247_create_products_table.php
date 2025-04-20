@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('image_url');
             $table->boolean('is_active')->default(true);
             $table->string(column: 'created_by');
-            $table->string(column: 'updated_by');
+            $table->string(column: 'updated_by')->nullable();
             $table->timestamps();
         });
     }
