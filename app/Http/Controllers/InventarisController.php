@@ -63,7 +63,10 @@ class InventarisController extends Controller
     public function destroy($id)
     {
         $inventaris = Inventaris::findOrFail($id);
-        $inventaris->delete();
+        $inventaris->update([
+            'is_active' => false,
+            'updated_by' => Auth::user()->username,
+        ]);
 
         return redirect()->route('inventaris.index')->with('success', 'Inventaris berhasil dihapus.');
     }

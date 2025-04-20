@@ -11,6 +11,8 @@ class InventarisExport implements FromCollection, WithHeadings
     public function collection()
     {
         return Inventaris::with('condition')
+            ->where('is_active', true)
+            ->orderBy('created_at','desc')
             ->get()
             ->map(function ($item, $index) {
                 return [
@@ -18,8 +20,6 @@ class InventarisExport implements FromCollection, WithHeadings
                     'Nama' => $item->name,
                     'Kondisi' => $item->condition->name,
                     'Jumlah' => $item->quantity,
-                    'Aktif' => $item->is_active ? 'Aktif' : 'Tidak Aktif',
-                    'Dibuat Oleh' => $item->created_by,
                     'Tanggal Dibuat' => $item->created_at->format('d-m-Y H:i')
                 ];
             });
@@ -32,8 +32,6 @@ class InventarisExport implements FromCollection, WithHeadings
             'Nama',
             'Kondisi',
             'Jumlah',
-            'Aktif',
-            'Dibuat Oleh',
             'Tanggal Dibuat'
         ];
     }
