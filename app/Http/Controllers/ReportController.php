@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\InventarisCondition;
 use App\Models\ProductType;
+use Auth;
 use Illuminate\Http\Request;
 
 use App\Models\Product;
@@ -13,19 +14,18 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $totalProducts = Product::count();
+        $username = Auth::user()->username;
 
-        $totalInventaris = Inventaris::count();
+        $totalProducts = Product::where("created_by", "=", $username)->count();
 
-        $productTypes = ProductType::all()->pluck('name');
-        $productCounts = Product::selectRaw('count(*) as count, product_type_id')
+        $totalInventaris = Inventaris::where("created_by", "=", $username)->count();
+
+        $productTypes = ProductType::where("created_by", "=", $username)->pluck('name');
+
+        $productCounts = Product::where("created_by", "=", $username)
+            ->selectRaw('count(*) as count, product_type_id')
             ->groupBy('product_type_id')
             ->pluck('count', 'product_type_id')->toArray();
-
-        $activeProducts = Product::where('is_active', true)->count();
-        $inactiveProducts = Product::where('is_active', false)->count();
-        $activeInventaris = Inventaris::where('is_active', true)->count();
-        $inactiveInventaris = Inventaris::where('is_active', false)->count();
 
         $goodCondition = Inventaris::where('condition_id', InventarisCondition::where('name', 'Baik')->first()->id)->count();
         $damagedCondition = Inventaris::where('condition_id', InventarisCondition::where('name', 'Rusak')->first()->id)->count();
@@ -35,10 +35,6 @@ class ReportController extends Controller
             'totalInventaris',
             'productTypes',
             'productCounts',
-            'activeProducts',
-            'inactiveProducts',
-            'activeInventaris',
-            'inactiveInventaris',
             'goodCondition',
             'damagedCondition'
         ));
