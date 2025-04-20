@@ -14,6 +14,7 @@ class InventarisController extends Controller
         $listInventaris = Inventaris::with('condition')
             ->where("created_by", "=", Auth::user()->username)
             ->where("is_active", "=", true)
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         $conditions = InventarisCondition::where("is_active", "=", true)

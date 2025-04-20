@@ -1,11 +1,13 @@
 <?php
 
+use App\Exports\InventarisExport;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use Maatwebsite\Excel\Facades\Excel;
 
 // Dashboard
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -26,6 +28,9 @@ Route::get('/inventaris', [InventarisController::class, 'index'])->name('inventa
 Route::post('/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
 Route::PATCH('/inventaris/{id}', [InventarisController::class, 'update'])->name('inventaris.update');
 Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
+Route::get('/inventaris/export', function () {
+    return Excel::download(new InventarisExport, 'data_inventaris.xlsx');
+})->name('inventaris.export');
 
 // Report
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
