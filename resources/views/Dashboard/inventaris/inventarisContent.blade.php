@@ -11,6 +11,8 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
+                            <th style="width: 50px;"
+                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kondisi
                             </th>
@@ -20,9 +22,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($listInventaris as $item)
-                            <tr
-                                @if (!$item->is_active) style="background-color: rgba(128, 128, 128, 0.2);" @endif>
+                        @forelse ($listInventaris as $index => $item)
+                            <tr`>
+                                <td style="width: 50px;" class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold">
+                                        {{ $listInventaris->firstItem() + $index }}
+                                    </span>
+                                </td>
                                 <td>
                                     <div class="d-flex px-2 py-1">
                                         <div class="d-flex flex-column justify-content-center">
@@ -45,16 +51,18 @@
                                         title="Edit Inventaris">
                                         Edit
                                     </a>
-
                                 </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Belum ada data inventaris.</td>
-                            </tr>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">Belum ada data inventaris.</td>
+                                </tr>
                         @endforelse
                     </tbody>
                 </table>
+                <div class="mt-3 px-3">
+                    {{ $listInventaris->links() }}
+                </div>
             </div>
         </div>
     </div>
