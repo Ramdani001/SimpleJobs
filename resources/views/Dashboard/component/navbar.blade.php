@@ -142,6 +142,6 @@
   </div>
   <div class="sidenav-footer mx-3 ">
 
-    <a class="btn btn-primary mt-3 w-100" href="https://www.creative-tim.com/product/soft-ui-dashboard-pro?ref=sidebarfree">Logout</a>
-  </div>
+    <a class="btn btn-primary mt-3 w-100" href="{{ route('logout') }}">Logout</a>
+</div>
 </aside>
