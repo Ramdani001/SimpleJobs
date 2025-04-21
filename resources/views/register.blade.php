@@ -47,7 +47,7 @@
         }
     </style>
 
-</head>
+</head> 
 <body>
        <div class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100vh;">
         <form class="shadow" action="{{ '/createUser' }}" method="POST">
@@ -64,6 +64,10 @@
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username">
                 <input type="text" class="form-control" id="email" name="email" hidden value="a@gmail.com">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone" name="phoneNumber">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
